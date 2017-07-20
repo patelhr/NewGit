@@ -134,3 +134,419 @@ DataGrid1.DataSource=reader1;
 DataGrid1.DataBind();
 
 con.Close();
+
+Blog
+
+Search
+ASP.NET
+Home
+Get Started
+Learn
+Hosting
+Downloads
+Community
+Forums
+Help
+Home/ASP.NET Forums/General ASP.NET/Getting Started/How to compare 2 files content in C#
+How to compare 2 files content in C# RSS
+11 replies
+Last post Mar 12, 2008 12:14 AM by rockers85
+‹ Previous Thread|Next Thread ›
+PrintShare
+Shortcuts
+Active Threads
+Unanswered Threads
+Unresolved Threads
+Support Options
+Advanced Search
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+How to compare 2 files content in C#
+Feb 29, 2008 01:23 AM|LINK
+
+hi,
+
+currently im doin a project to compare the content of 2 similar files. Im doing this project in Visual Studio using C# language. i have placed 2 "file field" from HTML component so that i can browse the files which i wan to compare. but the problem is i can't read the files even in the "file field" display my file directory. my second question is, how i wan do the comparison?? whats the method to do comparing 2 files?? can i have some example on how this action can be done??
+
+with a click of a button it should run compare action and the result should display in a label in the same page. can it be done or i have to change any of the codes?? after the result displayed, i wan have a button to save the result as .txt file and at the same time on do an auto trigger mail which will send the result.txt to a specific person. how it can be done?  do advice me on this.
+
+here is my non-completed source code:
+
+private void Button1_Click(object sender, System.EventArgs e)
+{
+
+result1.Text= "Check Complete"; // dispaly all the result in the box juz testing...
+
+button2.Visible= true;Button3.Visible= true;
+}
+
+private void button2_Click(object sender, System.EventArgs e)
+{
+
+Response.Redirect("compare.aspx"); // to return to compare page
+
+}
+
+private void Button3_Click(object sender, System.EventArgs e)
+{
+
+}
+
+ 
+
+*Button1 is to do comparing process and display the result in result1 label. what code i should write there??
+
+*Button2 is to return to the original page
+
+*Button3 is for save the result as .txt file and wan to set as an auto trigger mail to specific person wen tis button is clicked. what should i do ere?? what code i need to write...
+
+im realy new to programming and im stuck in writing C# code.
+
+Replyshawpnendu
+shawpnendu
+Contributor
+3091 Points
+876 Posts
+Re: How to compare 2 files content in C#
+Feb 29, 2008 03:55 AM|LINK
+
+You can read the below articles:
+http://support.microsoft.com/kb/320348
+http://www.java2s.com/Code/CSharp/File-Stream/Comparetwofiles.htm
+http://www.devasp.net/net/search/res/r75632.html
+
+Hope it will help you.
+
+Don't forget to mark as answer if its helpful for you.
+
+Shawpnendu Bikash Maloroy 
+MCTS 
+www.codedisplay.com
+Replyvasanth.kumar.d
+vasanth.kuma...
+Contributor
+3088 Points
+1037 Posts
+Re: How to compare 2 files content in C#
+Feb 29, 2008 04:27 AM|LINK
+
+Hi,
+
+below is the code to compare files....
+
+string strContent1 = Encoding.ASCII.GetString(FileUpload1.FileBytes);
+string strContent2 = Encoding.ASCII.GetString(FileUpload2.FileBytes);
+
+if (strContent1 == strContent2)
+{
+
+Response.Write("Same");
+}
+
+else
+
+{
+
+Response.Write("No ya...");
+}
+
+Vasanthakumar 
+Software Engineer. 
+ReplyPunithkumar
+Punithkumar
+Contributor
+3690 Points
+910 Posts
+Re: How to compare 2 files content in C#
+Feb 29, 2008 04:28 AM|LINK
+
+contents present in file 1 but not present in file 2...(A-B)
+
+string SQL1 ="SELECT file1 FROM testtable1 WHERE (file1 NOT IN (SELECT DISTINCT file2 FROM testtable2))";SqlCommand cmd1 = new SqlCommand(SQL1,con);
+con.Open();
+
+SqlDataReader reader1 = cmd1.ExecuteReader();
+
+if(reader1.Read())
+{
+
+DataGrid1.DataSource=reader1;
+
+DataGrid1.DataBind();
+
+}
+
+con.Close();
+
+ contents present in file 2 but not present in file 1...(B-A)
+
+string SQL1 ="SELECT file2 FROM testtable2 WHERE (file2 NOT IN (SELECT DISTINCT file1 FROM testtable1))";SqlCommand cmd1 = new SqlCommand(SQL1,con);
+con.Open();
+
+SqlDataReader reader1 = cmd1.ExecuteReader();
+
+ 
+
+DataGrid1.DataSource=reader1;
+
+DataGrid1.DataBind();
+
+con.Close();
+
+ common in file1 and file2-(A intersection B)
+
+string SQL1 ="SELECT file2 AS Common FROM testtable2 WHERE (file2 IN (SELECT DISTINCT file1 FROM testtable1))";SqlCommand cmd1 = new SqlCommand(SQL1,con);
+con.Open();
+
+SqlDataReader reader1 = cmd1.ExecuteReader();
+
+ 
+
+DataGrid1.DataSource=reader1;
+
+DataGrid1.DataBind();
+
+con.Close();
+
+ 
+
+Regards, 
+Punithkumar
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+Re: How to compare 2 files content in C#
+Mar 02, 2008 10:18 PM|LINK
+
+hi vasanth,
+
+related to ur source code, i have an error FileUpload1.FileBytes. same goes to FileUpload2.FileBytes.
+actualy how the FileUpload1.FileBytes is linked?? im using Visual studio and i use the File field(under Toolbox > HTML)  to browse files. i didnt use the Web Form to browse files but for other button such as click button, label i use from toolbox > web form. so how i wan to make sure that my files are detected since i can't read the files. i juz only can display the directory of my files in the file field after i browse my files. how i need to modify this so that i can read the files and proceed to compare the strings of the file??
+
+regards,
+
+Nares
+
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+Re: How to compare 2 files content in C#
+Mar 03, 2008 03:05 AM|LINK
+
+hi plz look at line 6 and line 7,
+
+protected System.Web.UI.WebControls.Label Label1;
+
+protected System.Web.UI.WebControls.Label Label2;
+protected System.Web.UI.WebControls.Button Button1;
+
+protected System.Web.UI.WebControls.Button button2;
+protected System.Web.UI.WebControls.Button Button3;
+
+protected System.Web.UI.HtmlControls.HtmlInputFile File1;
+protected System.Web.UI.HtmlControls.HtmlInputFile File2;
+
+protected System.Web.UI.WebControls.Label result1;
+
+im using html control to browse files. from here how i wan to read this files and do compare??
+
+Replyvasanth.kumar.d
+vasanth.kuma...
+Contributor
+3088 Points
+1037 Posts
+Re: How to compare 2 files content in C#
+Mar 03, 2008 04:32 AM|LINK
+
+Hi,
+
+try the below one...
+
+Aspx
+
+<input id="File1" type="file" runat="server"/>
+
+<br />
+
+<input id="File2" type="file" runat="server"/>
+
+<br />
+
+<br />
+
+<asp:Button ID="Button1" runat="server" Text="Button" /></div>
+
+Code Behind..
+
+Protected Sub Button1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button1.Click
+If File1.PostedFile.ContentLength > 0 And File2.PostedFile.ContentLength > 0 Then
+
+Dim fileCon1(File1.PostedFile.ContentLength) As Byte
+
+File1.PostedFile.InputStream.Read(fileCon1, 0, File1.PostedFile.ContentLength)
+
+Dim fileCon2(File2.PostedFile.ContentLength) As Byte
+
+File2.PostedFile.InputStream.Read(fileCon2, 0, File2.PostedFile.ContentLength)
+
+Dim strContent1 As String = Encoding.ASCII.GetString(fileCon1)
+Dim strContent2 As String = Encoding.ASCII.GetString(fileCon2)
+
+If (strContent1.Equals(strContent2)) Then
+
+Response.Write("Same")
+Else
+
+Response.Write("No")
+End If
+
+Else
+
+Response.Write("Pelase provide necessary details")
+End If
+
+ 
+
+End Sub
+
+Vasanthakumar 
+Software Engineer. 
+Replyvasanth.kumar.d
+vasanth.kuma...
+Contributor
+3088 Points
+1037 Posts
+Re: How to compare 2 files content in C#
+Mar 03, 2008 04:43 AM|LINK
+
+Hi,
+
+here is the C# version...
+
+protected void Button1_Click(object sender, EventArgs e)
+{
+
+if(File1.PostedFile.ContentLength > 0 && File2.PostedFile.ContentLength > 0)
+{
+
+byte[] fileCon1 = new byte[File1.PostedFile.ContentLength];byte[] fileCon2 = new byte[File2.PostedFile.ContentLength];
+File1.PostedFile.InputStream.Read(fileCon1, 0, File1.PostedFile.ContentLength);
+
+File2.PostedFile.InputStream.Read(fileCon2, 0, File2.PostedFile.ContentLength);
+
+string strContent1 = Encoding.ASCII.GetString(fileCon1);
+string strContent2 = Encoding.ASCII.GetString(fileCon2);
+
+if (strContent1.Equals(strContent2))
+{
+
+Response.Write("Same");
+}
+
+else
+
+{
+
+Response.Write("No");
+}
+
+}
+
+else
+
+{
+
+Response.Write("Pelase provide necessary details");
+}
+
+}
+
+Vasanthakumar 
+Software Engineer. 
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+Re: How to compare 2 files content in C#
+Mar 03, 2008 07:49 PM|LINK
+
+hi vasanth,
+
+i have tried ur code but it shows error in the:
+
+string strContent1 = Encoding.ASCII.GetString(fileCon1);
+string strContent2 = Encoding.ASCII.GetString(fileCon2);
+
+it highlights Encoding when i double click the errors showed. it state: The type or namespace name 'Encoding' could not be found (are you missing using directive or an assembly reference?)
+
+so what might give this error?? Can you help me on this??
+
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+Re: How to compare 2 files content in C#
+Mar 03, 2008 09:58 PM|LINK
+
+before this i post that i have error in the line:
+
+string strContent1 = Encoding.ASCII.GetString(fileCon1);
+string strContent2 = Encoding.ASCII.GetString(fileCon2);
+
+with some research on net i fix the problem:
+
+string strContent1 = System.Text.Encoding.ASCII.GetString(fileCon1);
+string strContent2 = System.Text.Encoding.ASCII.GetString(fileCon2);
+
+thank you very much on your help. i realy appreciate it. without you i can't finish it. thank you so much.
+
+regards,
+
+Nares...
+
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+Re: How to compare 2 files content in C#
+Mar 04, 2008 09:45 PM|LINK
+
+Hi vasanth,
+
+now im having multiple file to check its content but the problem is, it take time to select 1 file by 1 file to check its content. i find it not a user friendly if i wan to check contents of 10 files. its realy take time to compare 1 file vt another, i have to repeat this thing 10 times.
+
+so for solution i thought wan do few copies of 'File Field' so that i can browse few files and do comparing at the same time. but i think its not that efficient, so i thought of , can we select a folder to do comparing??? if can, when we browse folders, it will check files inside the folder are the same with what we wan to compare then if it the same files exist, it will then compare the content of each files like you did before.
+
+please advise me more on this. help needed on this.
+
+Replyrockers85
+rockers85
+Member
+7 Points
+33 Posts
+Re: How to compare 2 files content in C#
+Mar 12, 2008 12:14 AM|LINK
+
+hi,
+
+you have given me the coding to compare 2 files. it will show Same if the content are the same and not same if the content are  not same.
+
+is there any possibilty if the content are not same, it will show which line or which word are not same? can it be done like that?? i was pressured to upgrade it but im stuck on doing it..
+
+please advise me more on this...
+
+‹ Previous Thread|Next Thread ›
+This site is managed for Microsoft by Neudesic, LLC. | © 2017 Microsoft. All rights reserved.
+
+Privacy Statement|Terms of Use|Contact Us|Advertise With Us|CMS by Umbraco|Hosted on Microsoft Azure
+Feedback on ASP.NET|File Bugs|Support Lifecycle
